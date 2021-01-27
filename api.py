@@ -12,7 +12,6 @@ from pymongo import MongoClient, ASCENDING
 
 logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
 log = logging.getLogger("rich")
-log.info("Starting PeerlockDB API")
 console = Console()
 
 pdb_client_id = environ.get("PEERLOCKDB_PDB_CLIENT_ID")
@@ -38,8 +37,9 @@ pdb_profile_url = "https://auth.peeringdb.com/profile/v1"
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
+log.info("Creating DB connection")
 db = MongoClient(mongo_uri)["peerlockdb"]
-db["users"].create_index([("peeringdb_id", ASCENDING)], unique=True)
+db["networks"].create_index([("asn", ASCENDING)], unique=True)
 
 
 def _resp(success: bool, message: str, data: Optional[object] = None) -> Response:
@@ -84,11 +84,12 @@ def callback() -> Response:
         db["users"].insert_one({
             "email": json_body["email"],
         })
-    except DuplicateKeyError: # User already exists
+    except DuplicateKeyError:  # User already exists
         return _resp(False, "User with this email already exists")
 
     console.log(pdb_resp)
     return _resp(True, "Authenticated against PeeringDB")
 
 
+log.info("Starting PeerlockDB API")
 app.run()
