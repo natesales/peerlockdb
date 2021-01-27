@@ -62,8 +62,11 @@ def callback() -> Response:
     """
     peeringdb = OAuth2Session(pdb_client_id, state=session["oauth_state"])
     peeringdb.fetch_token(token_url=pdb_token_url, authorization_response=request.url.replace("http", "https"), client_secret=pdb_client_secret, client_id=pdb_client_id)
-    print(peeringdb.get(pdb_profile_url).json())
-    return jsonify({"auth": True})
+    pdb_resp = peeringdb.get(pdb_profile_url).json()
+    if not (pdb_resp.get("verified_email") and pdb_resp.get("verified_user")):
+        return _resp(False, "PeeringDB user is not verified")
+
+    return _resp(True, "Authenticated against PeeringDB")
 
 
 app.run()
