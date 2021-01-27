@@ -14,19 +14,19 @@ log = logging.getLogger("rich")
 log.info("Starting PeerlockDB API")
 console = Console()
 
-pdb_client_id = environ.get("PDB_CLIENT_ID")
+pdb_client_id = environ.get("PEERLOCKDB_PDB_CLIENT_ID")
 if not pdb_client_id:
-    log.fatal("PDB_CLIENT_ID environment variable is not defined")
+    log.fatal("PEERLOCKDB_PDB_CLIENT_ID environment variable is not defined")
     exit(1)
 
-pdb_client_secret = environ.get("PDB_CLIENT_SECRET")
+pdb_client_secret = environ.get("PEERLOCKDB_PDB_CLIENT_SECRET")
 if not pdb_client_secret:
-    log.fatal("PDB_CLIENT_SECRET environment variable is not defined")
+    log.fatal("PEERLOCKDB_PDB_CLIENT_SECRET environment variable is not defined")
     exit(1)
 
-mongo_uri = environ.get("MONGO_URI")
+mongo_uri = environ.get("PEERLOCKDB_MONGO_URI")
 if not mongo_uri:
-    log.fatal("MONGO_URI environment variable is not defined")
+    log.fatal("PEERLOCKDB_MONGO_URI environment variable is not defined")
     exit(1)
 
 # PeeringDB OAuth URL constants
