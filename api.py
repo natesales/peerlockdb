@@ -1,4 +1,6 @@
 from os import environ, urandom
+from typing import Optional
+
 from flask import Flask, request, redirect, session, Response, jsonify
 from requests_oauthlib import OAuth2Session
 import logging
@@ -24,6 +26,20 @@ pdb_profile_url = "https://auth.peeringdb.com/profile/v1"
 
 app = Flask(__name__)
 app.secret_key = urandom(32)
+
+
+def _resp(success: bool, message: str, data: Optional[object] = None) -> Response:
+    """
+    Return a JSON response
+    :param success: Did the request succeed?
+    :param message: What went wrong/right?
+    :param data: Additional data
+    :return:
+    """
+    return jsonify({
+        "meta": {"success": success, "message": message},
+        "data": data
+    })
 
 
 @app.route("/login")
