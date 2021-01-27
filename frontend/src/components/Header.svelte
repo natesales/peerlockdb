@@ -23,7 +23,7 @@
   }
 </script>
 
-<Header company="IBM" platformName="Carbon Components Svelte" href="/">
+<Header company="PeerlockDB" platformName="Peerlock Information Database" href="/">
   <div slot="skip-to-content">
     <SkipToContent />
   </div>
