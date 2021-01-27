@@ -1,3 +1,6 @@
 frontend/dist
 frontend/node_modules
 .idea
+frontend/public/build
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
