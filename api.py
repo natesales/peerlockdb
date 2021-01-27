@@ -80,15 +80,12 @@ def callback() -> Response:
     if not (pdb_resp.get("verified_email") and pdb_resp.get("verified_user")):
         return _resp(False, "PeeringDB user is not verified")
 
-
     try:
         db["users"].insert_one({
             "email": json_body["email"],
-            "key": token_hex(24)
         })
     except DuplicateKeyError: # User already exists
         return _resp(False, "User with this email already exists")
-
 
     console.log(pdb_resp)
     return _resp(True, "Authenticated against PeeringDB")

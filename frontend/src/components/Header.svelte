@@ -4,7 +4,7 @@
     Header,
     HeaderUtilities,
     HeaderGlobalAction,
-  } from "carbon-components-svelte/src/UIShell";
+  } from "carbon-components-svelte";
   import Notification20 from "carbon-icons-svelte/lib/Notification20";
   import UserAvatar20 from "carbon-icons-svelte/lib/UserAvatar20";
   import AppSwitcher20 from "carbon-icons-svelte/lib/AppSwitcher20";
@@ -28,8 +28,6 @@
     <SkipToContent />
   </div>
   <HeaderUtilities>
-    <HeaderGlobalAction aria-label="Notifications" icon="{Notification20}" />
-    <HeaderGlobalAction aria-label="User Avatar" icon="{UserAvatar20}" />
-    <HeaderGlobalAction aria-label="App Switcher" icon="{AppSwitcher20}" />
+    <HeaderGlobalAction aria-label="Login" icon="{UserAvatar20}" on:click={() => window.location = "__apiRoute__/login"}/>
   </HeaderUtilities>
 </Header>
