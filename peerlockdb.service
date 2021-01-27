@@ -1,0 +1,13 @@
+[Unit]
+Description=PeerlockDB API
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+User=root
+WorkingDirectory=/root/peerlockdb/
+ExecStart=bash /root/peerlockdb/startup.sh
+
+[Install]
+WantedBy=multi-user.target
