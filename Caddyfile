@@ -1,0 +1,10 @@
+peerlockdb.natesales.net {
+  root * /root/peerlockdb/frontend/public/
+  file_server
+  encode gzip
+
+  route /api/* {
+    uri strip_prefix /api
+    reverse_proxy localhost:5000
+  }
+}
