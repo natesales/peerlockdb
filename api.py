@@ -3,11 +3,12 @@ from typing import Optional
 import logging
 
 from flask import Flask, request, redirect, session, Response, jsonify
+from pymongo.errors import DuplicateKeyError
 from requests_oauthlib import OAuth2Session
 from rich.logging import RichHandler
 from rich.console import Console
 
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING
 
 logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
 log = logging.getLogger("rich")
@@ -38,6 +39,7 @@ app = Flask(__name__)
 app.secret_key = urandom(32)
 
 db = MongoClient(mongo_uri)["peerlockdb"]
+db["users"].create_index([("peeringdb_id", ASCENDING)], unique=True)
 
 
 def _resp(success: bool, message: str, data: Optional[object] = None) -> Response:
@@ -78,6 +80,17 @@ def callback() -> Response:
     if not (pdb_resp.get("verified_email") and pdb_resp.get("verified_user")):
         return _resp(False, "PeeringDB user is not verified")
 
+
+    try:
+        db["users"].insert_one({
+            "email": json_body["email"],
+            "key": token_hex(24)
+        })
+    except DuplicateKeyError: # User already exists
+        return _resp(False, "User with this email already exists")
+
+
+    console.log(pdb_resp)
     return _resp(True, "Authenticated against PeeringDB")
 
 
