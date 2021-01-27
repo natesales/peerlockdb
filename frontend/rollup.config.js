@@ -19,7 +19,7 @@ export default {
   },
   plugins: [
     replace({
-      __apiRoute__: 'http://localhost/api',
+      __apiRoute__: 'https://peerlockdb.natesales.net/api',
     }),
     svelte({
       dev: !PROD,
