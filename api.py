@@ -1,14 +1,12 @@
+import logging
 from os import environ, urandom
 from typing import Optional
-import logging
 
 from flask import Flask, request, redirect, session, Response, jsonify
-from pymongo.errors import DuplicateKeyError
-from requests_oauthlib import OAuth2Session
-from rich.logging import RichHandler
-from rich.console import Console
-
 from pymongo import MongoClient, ASCENDING
+from requests_oauthlib import OAuth2Session
+from rich.console import Console
+from rich.logging import RichHandler
 
 logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
 log = logging.getLogger("rich")
